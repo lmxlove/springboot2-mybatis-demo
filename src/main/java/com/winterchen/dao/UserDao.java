@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+/**
+ * @author 我不是大佬
+ */
 @Mapper
 @Repository
 public interface UserDao {

@@ -1,5 +1,8 @@
 package com.winterchen.utils;
 
+import com.winterchen.model.Student;
+import com.winterchen.vo.StudentVo;
+
 /**
  * @author <lmx>
  * @since 2022/11/14 21:07
@@ -29,8 +32,11 @@ public class ComResponse<T> {
     return data;
   }
 
-  public void setData(T data) {
-    this.data = data;
+  public void setData(StudentVo data) {
+    this.data = (T) data;
+  }
+  public void setData(Student data) {
+    this.data = (T) data;
   }
 
 }

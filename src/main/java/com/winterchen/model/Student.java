@@ -4,12 +4,12 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * @author <lmx>
- * @since 2022/11/12 21:09
- */
-@Data
+
 public class Student implements Serializable {
+
+
+  private static final Long serialVersionUID=1L;
+
   /**  主键  type:自增 */
 
   private int id;
@@ -35,6 +35,46 @@ public class Student implements Serializable {
   }
   public  Student(){
 
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public int getAge() {
+    return age;
+  }
+
+  public void setAge(int age) {
+    this.age = age;
+  }
+
+  public String getAddr() {
+    return addr;
+  }
+
+  public void setAddr(String addr) {
+    this.addr = addr;
+  }
+
+  public String getAddr_num() {
+    return addr_num;
+  }
+
+  public void setAddr_num(String addr_num) {
+    this.addr_num = addr_num;
   }
 
   @Override

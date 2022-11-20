@@ -7,13 +7,16 @@ import com.winterchen.model.UserDomain;
 import com.winterchen.service.user.UserService;
 import com.winterchen.service.user.impl.StudentMapperImpl;
 import com.winterchen.utils.ComResponse;
+import com.winterchen.vo.StudentVo;
 import org.apache.ibatis.annotations.Param;
 import org.omg.CORBA.Object;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.websocket.server.PathParam;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Scanner;
 import org.slf4j.Logger;
@@ -74,7 +77,7 @@ public class UserController {
     long startTime = System.currentTimeMillis();
     ComResponse<List<Student>> objComResponse=new ComResponse<>();
     List<Student> studentList= studentMapperImpl.getStudentList();
-    objComResponse.setData(studentList);
+    objComResponse.setData((StudentVo) studentList);
     objComResponse.setMsg("返回成功");
     long endTime = System.currentTimeMillis();
     System.out.println("查询数据消耗时间：" + (endTime - startTime));
@@ -86,15 +89,18 @@ public class UserController {
   public  ComResponse getStudent(@PathVariable("name") @RequestBody String  name){
     long startTime = System.currentTimeMillis();
     ComResponse<Student> Object=new ComResponse<>();
-    Student student=studentMapperImpl.getStudent(name);
-    Object.setData(student);
-    System.out.println(student);
 
+    Student student=studentMapperImpl.getStudent(name);
+    StudentVo studentVo=new StudentVo(name);
+    BeanUtils.copyProperties(student,studentVo);
+    log.info("拷贝前的数据是: {}",student);
+    log.info("拷贝后的数据是: {}",studentVo);
+    Object.setData(studentVo);
     Object.setMsg("返回成功");
     long endTime = System.currentTimeMillis();
-//    System.out.println("查询数据消耗时间：" + (endTime - startTime));
-    log.info("查询数据消耗时间: {}ms",endTime-startTime);
-
+    DecimalFormat decimalFormat=new DecimalFormat("0.00");
+    //数据转换错误，明天再看
+    log.info("查询数据消耗时间: {}s",decimalFormat.format((endTime-startTime)/1000));
     return Object;
 
   }
