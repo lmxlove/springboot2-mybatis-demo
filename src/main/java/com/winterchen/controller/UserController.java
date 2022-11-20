@@ -1,26 +1,40 @@
 package com.winterchen.controller;
 
-import com.github.pagehelper.PageHelper;
+import com.sun.org.apache.xerces.internal.impl.xs.util.StringListImpl;
 import com.winterchen.dao.studentMapper;
 import com.winterchen.model.Student;
 import com.winterchen.model.UserDomain;
 import com.winterchen.service.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.winterchen.service.user.impl.StudentMapperImpl;
+import com.winterchen.utils.ComResponse;
+import org.apache.ibatis.annotations.Param;
+import org.omg.CORBA.Object;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Array;
+import javax.websocket.server.PathParam;
+import java.util.List;
+import java.util.Scanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by Administrator on 2017/8/16.
  */
 @Controller
+@RestController
 @RequestMapping(value = "/user")
 public class UserController {
+  private final Logger log = LoggerFactory.getLogger(UserController.class);
 
   @Resource
   private UserService userService;
+  @Resource
+  private  studentMapper studentMapper;
+
+  @Resource
+  private  StudentMapperImpl studentMapperImpl;
 
   @ResponseBody
   @PostMapping("/add")
@@ -35,23 +49,70 @@ public class UserController {
           int pageNum,
           @RequestParam(name = "pageSize", required = false, defaultValue = "10")
           int pageSize) {
-    return userService.findAllUser(pageNum, pageSize);
+    return (Object) userService.findAllUser(pageNum, pageSize);
   }
 
   //写一个接口，循环运行，插入数据到用户表
   @GetMapping("/for")
-  public void forSingle(){
+  @ResponseBody
+  public String forSingle(){
     // 开始时间
     long startTime = System.currentTimeMillis();
-    for (int i = 0; i < 50000; i++){
+    for (int i = 0; i < 10000000; i++){
       Student student = new Student("李毅" + i,24,"张家界市" + i,i + "号");
-      System.out.println(student);
-      //对象转数组，打印数组长度
-      System.out.println();
-      studentMapper.insert(student);
+      studentMapper.insertStudent(student);
     }
     // 结束时间
     long endTime = System.currentTimeMillis();
     System.out.println("插入数据消耗时间：" + (endTime - startTime));
+    String a="插入成功";
+    return a;
   }
+  @GetMapping("/getStudentInfo")
+  @ResponseBody
+  public ComResponse getStudentInfo(){
+    long startTime = System.currentTimeMillis();
+    ComResponse<List<Student>> objComResponse=new ComResponse<>();
+    List<Student> studentList= studentMapperImpl.getStudentList();
+    objComResponse.setData(studentList);
+    objComResponse.setMsg("返回成功");
+    long endTime = System.currentTimeMillis();
+    System.out.println("查询数据消耗时间：" + (endTime - startTime));
+    return objComResponse;
+  }
+
+  @GetMapping("/getStudent/{name}")
+  @ResponseBody
+  public  ComResponse getStudent(@PathVariable("name") @RequestBody String  name){
+    long startTime = System.currentTimeMillis();
+    ComResponse<Student> Object=new ComResponse<>();
+    Student student=studentMapperImpl.getStudent(name);
+    Object.setData(student);
+    System.out.println(student);
+
+    Object.setMsg("返回成功");
+    long endTime = System.currentTimeMillis();
+//    System.out.println("查询数据消耗时间：" + (endTime - startTime));
+    log.info("查询数据消耗时间: {}ms",endTime-startTime);
+
+    return Object;
+
+  }
+  @GetMapping("/getStu/{id}")
+  @ResponseBody
+  private  ComResponse getStu(@PathVariable("id") @RequestBody Integer id){
+    long startTime=System.currentTimeMillis();
+    ComResponse<Student> studentComResponse=new ComResponse<>();
+    Student student=studentMapperImpl.getStu(id);
+    studentComResponse.setData(student);
+    studentComResponse.setMsg("返回成功");
+    long endTime=System.currentTimeMillis();
+    //控制台打印日志自带锁，不推荐使用
+    //System.out.println("查询数据消耗时间"+(endTime-startTime));
+    log.info("查询数据消耗时间: {}ms",endTime-startTime);
+    return studentComResponse;
+
+  }
+
+
 }

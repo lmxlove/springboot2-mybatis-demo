@@ -49,7 +49,6 @@ public class UserServiceImpl implements UserService {
    */
   @Override
   public Integer setAllUser(Object user) {
-
     return null;
   }
 }

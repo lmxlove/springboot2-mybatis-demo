@@ -3,7 +3,6 @@ package com.winterchen.dao;
 
 import com.winterchen.model.UserDomain;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

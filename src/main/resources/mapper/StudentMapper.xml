@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winterchen.dao.studentMapper">
+<!--    <insert id="insertStudentList">-->
+<!--        insert into  mytest.student (id,name,age,addr,addr_num) VALUES-->
+<!--        <foreach collection="studentList" item="student" index="index" separator=",">-->
+<!--            (#{student.id},#{student.name},#{student.age},#{student.addr},#{student.addr_num})-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
+    <insert id="insertStudent">
+        insert into  mytest.student (id,name,age,addr,addr_num) VALUES (#{student.id},#{student.name},#{student.age},#{student.addr},#{student.addr_num});
+    </insert>
+
+    <select id="getStudentList" resultType="com.winterchen.model.Student">
+        select  * from mytest.student ;
+    </select>
+
+    <select id="getStudent" resultType="com.winterchen.model.Student">
+        select * from mytest.student where name like concat('%',#{name},'%');
+    </select>
+
+    <select id="getStu" resultType="com.winterchen.model.Student">
+        select  * from mytest.student where id=#{id}
+    </select>
+</mapper>
