@@ -91,7 +91,7 @@ public class UserController {
     ComResponse<Student> Object=new ComResponse<>();
 
     Student student=studentMapperImpl.getStudent(name);
-    StudentVo studentVo=new StudentVo(name);
+    StudentVo studentVo=new StudentVo();
     BeanUtils.copyProperties(student,studentVo);
     log.info("拷贝前的数据是: {}",student);
     log.info("拷贝后的数据是: {}",studentVo);
@@ -99,8 +99,8 @@ public class UserController {
     Object.setMsg("返回成功");
     long endTime = System.currentTimeMillis();
     DecimalFormat decimalFormat=new DecimalFormat("0.00");
-    //数据转换错误，明天再看
-    log.info("查询数据消耗时间: {}s",decimalFormat.format((endTime-startTime)/1000));
+    //log.info("查询数据消耗时间: {}s",decimalFormat.format((endTime-startTime)/1000.0));
+    log.info("查询数据消耗时间: {}s",(endTime-startTime)/1000.0);
     return Object;
 
   }

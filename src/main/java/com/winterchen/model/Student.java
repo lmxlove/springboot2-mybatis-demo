@@ -4,7 +4,10 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-
+/**
+ * @author 我不是大佬
+ */
+@Data
 public class Student implements Serializable {
 
 
@@ -37,45 +40,7 @@ public class Student implements Serializable {
 
   }
 
-  public int getId() {
-    return id;
-  }
 
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public int getAge() {
-    return age;
-  }
-
-  public void setAge(int age) {
-    this.age = age;
-  }
-
-  public String getAddr() {
-    return addr;
-  }
-
-  public void setAddr(String addr) {
-    this.addr = addr;
-  }
-
-  public String getAddr_num() {
-    return addr_num;
-  }
-
-  public void setAddr_num(String addr_num) {
-    this.addr_num = addr_num;
-  }
 
   @Override
   public String toString() {
