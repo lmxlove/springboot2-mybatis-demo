@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+/**
+ * @author 我不是大佬
+ */
 @Data
 public class UserDomain implements Serializable {
   private Integer userId;

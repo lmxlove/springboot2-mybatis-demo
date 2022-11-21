@@ -17,12 +17,15 @@ public class StudentVo implements Serializable {
 
   private int age;
   private String addr;
+  private String addr_num;
 
 
   @Override
   public String toString() {
     return "StudentVo{" +
-            "addr=" + addr +
+            "age=" + age +
+            ", addr='" + addr + '\'' +
+            ", addr_num='" + addr_num + '\'' +
             '}';
   }
 }
