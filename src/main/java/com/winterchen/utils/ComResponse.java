@@ -1,13 +1,9 @@
 package com.winterchen.utils;
 
-import com.github.pagehelper.PageInfo;
-import com.winterchen.model.AllStudent;
 import com.winterchen.model.Student;
 import com.winterchen.vo.StudentVo;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author <lmx>
@@ -51,14 +47,6 @@ public class ComResponse<T> {
 
   }
 
-  public  void setData(List data){
-    this.data= (T) data;
-
-  }
-  public  void setData(Object data){
-    this.data= (T) data;
-
-  }
 
 
 

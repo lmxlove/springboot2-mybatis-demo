@@ -72,23 +72,36 @@ public class StuController {
   @GetMapping("/allStudents")
   @ResponseBody
   @Transactional(rollbackFor = Exception.class)
-  public ComResponse findAllStudent1(
+  public <resultMap> ComResponse findAllStudent1(
           @RequestParam(name = "pageNum", required = false, defaultValue = "1")
           Integer pageNum,
           @RequestParam(name = "pageSize", required = false, defaultValue = "20")
           Integer pageSize) {
     long startTime = System.currentTimeMillis();
-    ComResponse<List<AllStudent>> comResponse = new ComResponse<>();
-    PageInfo<AllStudent> pages = allStuService.findAllStudent(pageNum, pageSize);
-    //使用stream拷贝list
-    List<AllStuVo> allStuVoList = pages.getList().stream()
-            .map(e -> {
-              AllStuVo allStuVo = new AllStuVo();
-              BeanUtils.copyProperties(e, allStuVo);
-              return allStuVo;
-            })
-            .collect(Collectors.toList());
-    comResponse.setData(allStuVoList);
+    Map<String, Object> resultMap = new HashMap<>(16);
+    ComResponse<resultMap> comResponse = new ComResponse<>();
+    try{
+      PageInfo<AllStudent> pages = allStuService.findAllStudent(pageNum, pageSize);
+      //使用stream拷贝list
+      List<AllStuVo> allStuVoList = pages.getList().stream()
+              .map(e -> {
+                AllStuVo allStuVo = new AllStuVo();
+                BeanUtils.copyProperties(e, allStuVo);
+                return allStuVo;
+              })
+              .collect(Collectors.toList());
+      resultMap.put("result",true);
+      resultMap.put("AllStudentList",allStuVoList);
+      resultMap.put("pages",pages);
+
+    }catch (Exception e){
+      resultMap.put("result",false);
+      resultMap.put("message","分页异常，请重试");
+
+    }finally {
+      PageHelper.clearPage();
+    }
+    comResponse.setData((HashMap) resultMap);
     comResponse.setMsg("查询成功");
     long endTime = System.currentTimeMillis();
     /*DecimalFormat decimalFormat = new DecimalFormat("0.00");
