@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @Data
 public class AllStudent implements Serializable {
-
+  private static final Long serialVersionUID=3L;
 
   private  Long student_id;
   private  String name;

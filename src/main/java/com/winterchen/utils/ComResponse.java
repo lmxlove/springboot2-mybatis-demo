@@ -46,5 +46,9 @@ public class ComResponse<T> {
     this.data= (T) data;
 
   }
+  public  void setData(Object data){
+    this.data= (T) data;
+
+  }
 
 }

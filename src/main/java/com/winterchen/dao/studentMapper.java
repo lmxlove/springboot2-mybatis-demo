@@ -22,8 +22,10 @@ public interface studentMapper {
 
 //  Boolean insertStudentList(@Param("studentList") List<Student> studentList);
 
- List<Student> getStudentList();
- Student  getStudent(@Param("name") String name);
- Student getStu(@Param("id") Integer id);
+  List<Student> getStudentList();
+
+  Student getStudent(@Param("name") String name);
+
+  Student getStu(@Param("id") Integer id);
 
 }
