@@ -6,21 +6,19 @@ import com.winterchen.model.AllStudent;
 import com.winterchen.service.user.AllStuService;
 import com.winterchen.utils.ComResponse;
 import com.winterchen.vo.AllStuVo;
-import com.winterchen.vo.StudentVo;
-import org.apache.ibatis.mapping.ResultMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author <lmx>
@@ -44,7 +42,7 @@ public class StuController {
           @RequestParam(name = "pageSize", required = false, defaultValue = "10")
           Integer pageSize) {
     long startTime = System.currentTimeMillis();
-    Map<String, Object> resultMap = new HashMap<>();
+    Map<String, Object> resultMap = new HashMap<>(16);
     ComResponse<resultMap> comResponse = new ComResponse<>();
     try {
 
@@ -64,8 +62,8 @@ public class StuController {
     comResponse.setData((HashMap) resultMap);
     comResponse.setMsg("查询成功");
     long endTime = System.currentTimeMillis();
-    DecimalFormat decimalFormat = new DecimalFormat("0.00");
-    //log.info("查询数据消耗时间: {}s",decimalFormat.format((endTime-startTime)/1000.0));
+   /* DecimalFormat decimalFormat = new DecimalFormat("0.00");
+    log.info("查询数据消耗时间: {}s",decimalFormat.format((endTime-startTime)/1000.0));*/
     log.info("查询数据消耗时间: {}s", (endTime - startTime) / 1000.0);
 
     return comResponse;
@@ -80,15 +78,21 @@ public class StuController {
           @RequestParam(name = "pageSize", required = false, defaultValue = "20")
           Integer pageSize) {
     long startTime = System.currentTimeMillis();
-    ComResponse<Object> comResponse = new ComResponse<>();
-    Object allStudents = allStuService.findAllStudent(pageNum, pageSize);
-//    AllStuVo allStuVo=new AllStuVo();
-//    BeanUtils.copyProperties(allStudent,allStuVo);
-    comResponse.setData(allStudents);
+    ComResponse<List<AllStudent>> comResponse = new ComResponse<>();
+    PageInfo<AllStudent> pages = allStuService.findAllStudent(pageNum, pageSize);
+    //使用stream拷贝list
+    List<AllStuVo> allStuVoList = pages.getList().stream()
+            .map(e -> {
+              AllStuVo allStuVo = new AllStuVo();
+              BeanUtils.copyProperties(e, allStuVo);
+              return allStuVo;
+            })
+            .collect(Collectors.toList());
+    comResponse.setData(allStuVoList);
     comResponse.setMsg("查询成功");
     long endTime = System.currentTimeMillis();
-    DecimalFormat decimalFormat = new DecimalFormat("0.00");
-    //log.info("查询数据消耗时间: {}s",decimalFormat.format((endTime-startTime)/1000.0));
+    /*DecimalFormat decimalFormat = new DecimalFormat("0.00");
+    log.info("查询数据消耗时间: {}s",decimalFormat.format((endTime-startTime)/1000.0));*/
     log.info("查询数据消耗时间: {}s", (endTime - startTime) / 1000.0);
     return comResponse;
   }

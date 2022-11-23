@@ -1,6 +1,5 @@
 package com.winterchen.controller;
 
-import com.sun.org.apache.xerces.internal.impl.xs.util.StringListImpl;
 import com.winterchen.dao.studentMapper;
 import com.winterchen.model.Student;
 import com.winterchen.model.UserDomain;
@@ -8,19 +7,16 @@ import com.winterchen.service.user.UserService;
 import com.winterchen.service.user.impl.StudentMapperImpl;
 import com.winterchen.utils.ComResponse;
 import com.winterchen.vo.StudentVo;
-import org.apache.ibatis.annotations.Param;
 import org.omg.CORBA.Object;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.websocket.server.PathParam;
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Scanner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Created by Administrator on 2017/8/16.
