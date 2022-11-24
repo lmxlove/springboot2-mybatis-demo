@@ -1,6 +1,4 @@
 package com.winterchen;
-
-import com.winterchen.dao.UserMapper;
 import com.winterchen.model.User;
 import com.winterchen.service.user.impl.UserMapperImpl;
 import org.junit.runner.RunWith;
