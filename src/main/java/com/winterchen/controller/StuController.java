@@ -68,6 +68,7 @@ public class StuController {
    /* DecimalFormat decimalFormat = new DecimalFormat("0.00");
     log.info("查询数据消耗时间: {}s",decimalFormat.format((endTime-startTime)/1000.0));*/
     log.info("查询数据消耗时间: {}s", (endTime - startTime) / 1000.0);
+    allStuService=null;
 
     return comResponse;
   }
@@ -75,6 +76,7 @@ public class StuController {
   @GetMapping("/allStudents")
   @ResponseBody
   @Transactional(rollbackFor = Exception.class)
+  @CrossOrigin
   public <resultMap> ComResponse findAllStudent1(
           @RequestParam(name = "pageNum", required = false, defaultValue = "1")
           Integer pageNum,
@@ -155,7 +157,6 @@ public class StuController {
       studentDoPageInfo.setList(studentVos);
     } catch (Exception e) {
       //异常捕获
-
     } finally {
       PageHelper.clearPage();
     }

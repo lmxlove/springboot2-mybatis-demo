@@ -112,6 +112,7 @@ public class UserController {
     //控制台打印日志自带锁，不推荐使用
     //System.out.println("查询数据消耗时间"+(endTime-startTime));
     log.info("查询数据消耗时间: {}ms",endTime-startTime);
+    studentMapperImpl=null;
     return studentComResponse;
 
   }
